@@ -24,7 +24,7 @@ pub fn parse(doc: &str) -> HashMap<String, Vec<Defenition>> {
 
             if !text
                 .chars()
-                .all(|c| c.is_alphanumeric() || c.is_whitespace())
+                .all(|c| c.is_alphanumeric() || c.is_whitespace() || c.is_ascii_punctuation())
             {
                 return acc;
             }
