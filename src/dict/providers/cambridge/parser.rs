@@ -22,6 +22,13 @@ pub fn parse(doc: &str) -> HashMap<String, Vec<Defenition>> {
                 .map(String::from)
                 .unwrap_or(text);
 
+            if !text
+                .chars()
+                .all(|c| c.is_alphanumeric() || c.is_whitespace())
+            {
+                return acc;
+            }
+
             let mut part_of_speech = def.select(&DEF_PART_OF_SPEECH_SELECTOR);
             let part_of_speech = part_of_speech.next().or_else(|| {
                 let parent = none_return!(def.parent());
