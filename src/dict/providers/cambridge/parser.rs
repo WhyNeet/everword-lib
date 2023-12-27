@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use scraper::{ElementRef, Html};
 
-use crate::dict::model::Defenition;
+use crate::{dict::model::Defenition, none_return};
 
 use super::statics::{
     DEF_BLOCK_SELECTOR, DEF_ENTRY_SELECTOR, DEF_EXAMPLES_SELECTOR, DEF_PART_OF_SPEECH_SELECTOR,
@@ -24,9 +24,9 @@ pub fn parse(doc: &str) -> HashMap<String, Vec<Defenition>> {
 
             let mut part_of_speech = def.select(&DEF_PART_OF_SPEECH_SELECTOR);
             let part_of_speech = part_of_speech.next().or_else(|| {
-                let parent = def.parent().unwrap();
-                let header = parent.prev_sibling().unwrap();
-                let header = ElementRef::wrap(header).unwrap();
+                let parent = none_return!(def.parent());
+                let header = none_return!(parent.prev_sibling());
+                let header = none_return!(ElementRef::wrap(header));
                 let part_of_speech = header.select(&DEF_PART_OF_SPEECH_SELECTOR).next();
 
                 part_of_speech
