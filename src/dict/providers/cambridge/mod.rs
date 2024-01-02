@@ -1,11 +1,9 @@
 pub mod parser;
 pub mod statics;
 
-use std::collections::HashMap;
-
 use async_trait::async_trait;
 
-use crate::dict::{model::Defenition, traits::Scrape};
+use crate::dict::traits::{Defenitions, Scrape};
 
 use self::parser::parse;
 
@@ -13,7 +11,7 @@ pub struct CambridgeScraper;
 
 #[async_trait]
 impl Scrape for CambridgeScraper {
-    async fn scrape(word: &str) -> anyhow::Result<HashMap<String, Vec<Defenition>>> {
+    async fn scrape(self, word: &str) -> anyhow::Result<Defenitions> {
         let doc = reqwest::get(format!(
             "https://dictionary.cambridge.org/us/dictionary/english/{word}"
         ))

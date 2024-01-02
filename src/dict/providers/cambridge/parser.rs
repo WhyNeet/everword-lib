@@ -4,11 +4,14 @@ use scraper::{ElementRef, Html};
 
 use crate::{dict::model::Defenition, none_return};
 
-use super::statics::{
-    DEF_BLOCK_SELECTOR, DEF_ENTRY_SELECTOR, DEF_EXAMPLES_SELECTOR, DEF_PART_OF_SPEECH_SELECTOR,
+use super::{
+    statics::{
+        DEF_BLOCK_SELECTOR, DEF_ENTRY_SELECTOR, DEF_EXAMPLES_SELECTOR, DEF_PART_OF_SPEECH_SELECTOR,
+    },
+    Defenitions,
 };
 
-pub fn parse(doc: &str) -> HashMap<String, Vec<Defenition>> {
+pub fn parse(doc: &str) -> Defenitions {
     let document = Html::parse_document(doc);
     let defs = document.select(&DEF_ENTRY_SELECTOR);
 
